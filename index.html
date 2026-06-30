@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 9 Chemistry — Atomic Structure & the Periodic Table</title>
+<style>
+  :root {
+    --bg: #FAF3E0; --panel: #FFFDF7; --ink: #2B2B2B;
+    --accent: #2E6E5A; --accent-soft: #DCEDE7;
+    --correct: #1E7A46; --correct-soft: #E4F3E9;
+    --tryagain: #7A5C00; --tryagain-soft: #FBF1D6;
+    --line: #E2D9C2; --label: #6B5E45;
+    --info: #2A5A7A; --info-soft: #E0EDF4;
+    --reject: #8A3324; --reject-soft: #F6E3DE;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; line-height: 1.6;
+    color: var(--ink); background: var(--bg); margin: 0; padding: 0 16px 80px; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { padding: 24px 0 8px; }
+  h1 { font-size: 18pt; margin: 0 0 4px; color: var(--accent); }
+  .sub { color: var(--label); margin: 0 0 8px; }
+  .tier-pill { display: inline-block; background: var(--accent-soft); color: var(--accent);
+    font-size: 10pt; font-weight: bold; padding: 3px 10px; border-radius: 20px; }
+  .ladder-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 8px; }
+  .ladder-nav button { font-family: inherit; font-size: 10.5pt; cursor: pointer;
+    background: var(--panel); border: 1.5px solid var(--line); color: var(--ink);
+    padding: 6px 10px; border-radius: 8px; }
+  .ladder-nav button:hover { border-color: var(--accent); }
+  section.step { background: var(--panel); border: 1.5px solid var(--line);
+    border-radius: 12px; padding: 18px 18px 20px; margin: 14px 0; }
+  .step-label { font-size: 10pt; font-weight: bold; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--label); margin: 0 0 2px; }
+  h2 { font-size: 14pt; margin: 0 0 10px; color: var(--accent); }
+  h3 { font-size: 12pt; margin: 16px 0 6px; }
+  .instruction { background: var(--accent-soft); color: var(--ink); padding: 8px 12px;
+    border-radius: 8px; margin: 0 0 14px; font-weight: bold; }
+  .topic-tag { display: inline-block; font-size: 9.5pt; font-weight: bold; background: var(--bg);
+    border: 1px solid var(--line); color: var(--label); padding: 2px 8px; border-radius: 6px; margin-bottom: 6px; }
+  details.panel { background: var(--info-soft); border: 1.5px solid #C5DCEA; border-radius: 12px; margin: 12px 0; overflow: hidden; }
+  details.panel > summary { cursor: pointer; padding: 14px 16px; font-weight: bold; font-size: 12.5pt; color: var(--info); list-style: none; }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary::before { content: "▸ "; }
+  details.panel[open] > summary::before { content: "▾ "; }
+  details.panel .pbody { padding: 0 16px 16px; }
+  details.panel h4 { color: var(--info); margin: 14px 0 4px; font-size: 11.5pt; }
+  .action-step { background: #fff; border-left: 4px solid var(--info); border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+  .action-step b { color: var(--info); }
+  .learn-card { border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; margin: 12px 0; }
+  .learn-card strong { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 11pt; }
+  th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; }
+  th { background: var(--accent-soft); }
+  .opt { display: block; width: 100%; text-align: left; font-family: inherit; font-size: 11.5pt;
+    cursor: pointer; background: var(--bg); border: 1.5px solid var(--line); color: var(--ink);
+    padding: 10px 12px; border-radius: 8px; margin: 7px 0; }
+  .opt:hover { border-color: var(--accent); }
+  .opt.correct { background: var(--correct-soft); border-color: var(--correct); font-weight: bold; }
+  .opt.wrong { background: var(--tryagain-soft); border-color: var(--tryagain); }
+  .q { font-weight: bold; margin: 14px 0 4px; }
+  .feedback { margin: 8px 0 4px; padding: 9px 12px; border-radius: 8px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.good { background: var(--correct-soft); color: var(--correct); }
+  .feedback.try { background: var(--tryagain-soft); color: var(--tryagain); }
+  .btn { font-family: inherit; font-size: 11pt; cursor: pointer; background: var(--accent);
+    color: #fff; border: none; padding: 8px 16px; border-radius: 8px; margin: 6px 6px 6px 0; }
+  .btn.ghost { background: var(--panel); color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn:active { transform: translatey(1px); }
+  .timer-bar { display: flex; align-items: center; gap: 12px; margin: 10px 0; flex-wrap: wrap; }
+  .timer { font-size: 16pt; font-weight: bold; color: var(--accent); min-width: 70px; }
+  .reveal-box { background: var(--bg); border: 1.5px dashed var(--line); border-radius: 8px; padding: 12px; margin: 8px 0; }
+  .hidden-ans { display: none; margin-top: 8px; }
+  .hidden-ans.show { display: block; }
+  .tick { color: var(--correct); font-weight: bold; }
+  .cross { color: var(--reject); font-weight: bold; }
+  .nudge { background: var(--tryagain-soft); border-radius: 8px; padding: 9px 12px; margin: 12px 0 0; font-size: 10.5pt; color: var(--tryagain); }
+  .nudge b { color: var(--tryagain); }
+  .reject-note { background: var(--reject-soft); border-radius: 6px; padding: 7px 11px; margin: 6px 0; font-size: 10pt; color: var(--reject); }
+  .reject-note b { color: var(--reject); }
+  .flashcard { background: var(--accent-soft); border-radius: 12px; padding: 22px 16px; text-align: center;
+    cursor: pointer; min-height: 90px; display: flex; align-items: center; justify-content: center; font-size: 12.5pt; user-select: none; }
+  .flash-hint { font-size: 10pt; color: var(--label); text-align: center; margin-top: 4px; }
+  input[type=text] { font-family: inherit; font-size: 11.5pt; padding: 7px 9px; border: 1.5px solid var(--line);
+    border-radius: 7px; width: 130px; background: #fff; color: var(--ink); }
+  input.correct { border-color: var(--correct); background: var(--correct-soft); }
+  input.wrong { border-color: var(--tryagain); background: var(--tryagain-soft); }
+  .word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
+  .word-bank span { background: var(--accent-soft); color: var(--accent); font-weight: bold; padding: 4px 11px; border-radius: 20px; font-size: 10.5pt; }
+  textarea { font-family: inherit; font-size: 11.5pt; width: 100%; min-height: 90px; padding: 10px;
+    border: 1.5px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); resize: vertical; }
+  .help-row { margin: 8px 0; }
+  .help-step { display: none; margin: 6px 0; padding: 9px 12px; background: var(--bg); border-left: 3px solid var(--accent); border-radius: 6px; }
+  .help-step.show { display: block; }
+  details.markscheme { margin: 8px 0; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  details.markscheme summary { cursor: pointer; padding: 9px 12px; font-weight: bold; color: var(--accent); }
+  details.markscheme .body { padding: 0 12px 12px; }
+  .note { font-size: 10.5pt; color: var(--label); }
+  .examiner { background: var(--tryagain-soft); border-radius: 8px; padding: 8px 12px; margin: 10px 0; font-size: 10.5pt; }
+  .examiner strong { color: var(--tryagain); }
+  .svg-wrap { text-align: center; margin: 14px 0; }
+  .svg-wrap svg { max-width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+  .svg-cap { font-size: 10pt; color: var(--label); margin-top: 4px; }
+  footer { text-align: center; color: var(--label); font-size: 10pt; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tier-pill">Foundation · Target Grade 4–5</span>
+  <h1>Atomic Structure &amp; the Periodic Table</h1>
+  <p class="sub">Year 9 Chemistry · AQA Combined Science</p>
+  <p class="note">Work down the page in order. Each part gets a little harder — that’s on purpose. By the end you’ll be answering the trickier exam questions on ions and reactivity. Getting things wrong along the way is how your brain learns.</p>
+
+  <details class="panel">
+    <summary>How to revise — and why it works</summary>
+    <div class="pbody">
+      <p>You might already be putting time into revision — but if it isn’t showing up in your results, the <em>way</em> you’re revising might need a tweak. Here’s the approach that works.</p>
+      <h4>Step 1 — Recap a little, often (20–30 mins a week)</h4>
+      <div class="action-step"><b>What to do:</b> Each week, spend a short block recapping chemistry — aim for roughly the same amount of recap time as the lessons you had that week. Two lessons that week? Aim for about an hour of recap across the week.</div>
+      <div class="action-step"><b>What to focus on:</b> Look back at your assessments, mock exams and homework booklets and note every area you’re weak in. For most people that’s Year 9 content — and we want to enter Year 11 on solid foundations, with Year 9 and 10 already revised. <b>If you couldn’t answer the starter questions in class, those are weak areas too — start there.</b></div>
+      <div class="action-step"><b>Getting better once isn’t enough.</b> Being good at a topic today doesn’t mean you’ll still be good at it in six months. Revisit content throughout the year. Repetition and practice are what make it stick.</div>
+      <h4>How do I actually recap?</h4>
+      <p><b>Flashcards</b> for definitions, equations, unit conversions, symbols, and any small question you keep slipping up on. Use them daily until you get the answer word-for-word right 3–4 days in a row, then revisit a week later.<br>
+      <b>Summary sheet / mind map</b> for broader content: summarise a topic onto a double-sided sheet. If it’s good, it should help you answer the homework booklet. If it doesn’t, fix it using the correct language from the mark scheme. Learn it by reading and writing it out loud 3 times, then writing it from memory 3 times.</p>
+      <h4>Step 2 — Test whether it’s working (10–15 mins a week)</h4>
+      <div class="action-step"><b>What to do:</b> Spend a short block doing about 15 marks of exam questions on the topics you’ve been recapping. In the two weeks before a test, build this up to around an hour a week. Questions live in your homework booklets and previous in-class assessments.</div>
+      <div class="action-step"><b>Still making mistakes?</b> First check your revision resources aren’t wrong. If they’re fine and you’re still slipping up, it’s probably a gap in understanding — bring those exact questions to a lesson or intervention session, or reach out to your chemistry teacher for help and support.</div>
+      <p class="note">In lessons: focus, ask for help when something doesn’t make sense, answer questions even if you might be wrong, and bring your equipment. Mistakes along the way are completely fine.</p>
+    </div>
+  </details>
+
+  <details class="panel">
+    <summary>Stuck, absent, or forgotten this from before?</summary>
+    <div class="pbody">
+      <p>If you missed a lesson or you’ve forgotten a Year 9 topic, you’re not stuck — here’s where to look:</p>
+      <div class="action-step">Go to your <b>Year 9 chemistry Showbie area</b>. That’s where you’ll find checklists for before assessments, digitalised homework booklets, revision links, and video links of lessons covered — including summary sheets for every Year 9 topic.</div>
+      <div class="action-step">If you made your notes properly in lessons, that’s the other place all this content should be.</div>
+      <div class="action-step">Still not clicking after that? <b>Reach out to your chemistry teacher</b> for help and support — in lesson, at intervention, or by email.</div>
+    </div>
+  </details>
+
+  <nav class="ladder-nav" aria-label="Jump to section">
+    <button onclick="jump('warmup')">1 · Warm-up</button>
+    <button onclick="jump('learn')">2 · Learn</button>
+    <button onclick="jump('history')">3 · History of the atom</button>
+    <button onclick="jump('mcq')">4 · Multiple choice</button>
+    <button onclick="jump('match')">5 · Match</button>
+    <button onclick="jump('fill')">6 · Fill the blank</button>
+    <button onclick="jump('exam')">7 · Exam questions</button>
+    <button onclick="jump('extended')">8 · Longer answer</button>
+  </nav>
+</header>
+
+<!-- 1. WARM-UP -->
+<section class="step" id="warmup">
+  <p class="step-label">Step 1 of 8</p>
+  <h2>Warm-up retrieval</h2>
+  <p class="instruction">Books closed. Try to answer from memory, then click to check.</p>
+  <div class="timer-bar">
+    <span class="timer" id="timer">2:00</span>
+    <button class="btn" onclick="startTimer()">Start timer</button>
+    <span class="note">Aim for about 2 minutes. No score is saved.</span>
+  </div>
+  <div class="reveal-box"><span class="topic-tag">Last lesson</span>
+    <p class="q">1. What are the two particles found in the nucleus of an atom?</p>
+    <button class="btn ghost" onclick="toggle('w1')">Check answer</button>
+    <div class="hidden-ans" id="w1"><span class="tick">✓</span> Protons and neutrons.</div></div>
+  <div class="reveal-box"><span class="topic-tag">Last week</span>
+    <p class="q">2. An atom has no overall charge. What does this tell you about its protons and electrons?</p>
+    <button class="btn ghost" onclick="toggle('w2')">Check answer</button>
+    <div class="hidden-ans" id="w2"><span class="tick">✓</span> It has equal numbers of protons (+1 each) and electrons (−1 each), so the charges cancel out.</div></div>
+  <div class="reveal-box"><span class="topic-tag">Last month</span>
+    <p class="q">3. What is the difference between an element and a compound?</p>
+    <button class="btn ghost" onclick="toggle('w3')">Check answer</button>
+    <div class="hidden-ans" id="w3"><span class="tick">✓</span> An element contains only one type of atom. A compound contains two or more different elements chemically bonded together.</div></div>
+  <div class="nudge"><b>Couldn’t answer one of these?</b> That’s not a failure — it’s your diagnostic. The questions you can’t do here are exactly the topics to work on first.</div>
+</section>
+
+<!-- 2. LEARN -->
+<section class="step" id="learn">
+  <p class="step-label">Step 2 of 8</p>
+  <h2>Learn the essentials</h2>
+  <p class="instruction">Read one box at a time. Don’t rush — these are the facts everything else builds on.</p>
+
+  <div class="learn-card"><strong>The atom.</strong> Every substance is made of atoms. An atom has a tiny central <strong>nucleus</strong> (protons + neutrons), surrounded by <strong>electrons</strong> in shells (energy levels).</div>
+
+  <h3>The three particles</h3>
+  <table>
+    <tr><th>Particle</th><th>Charge</th><th>Relative mass</th><th>Where</th></tr>
+    <tr><td>Proton</td><td>+1</td><td>1</td><td>Nucleus</td></tr>
+    <tr><td>Neutron</td><td>0</td><td>1</td><td>Nucleus</td></tr>
+    <tr><td>Electron</td><td>−1</td><td>Very small (almost 0)</td><td>Shells</td></tr>
+  </table>
+  <div class="learn-card"><strong>Why is electron mass ignored?</strong> An electron’s mass is so tiny (very small / almost zero) compared with a proton or neutron that it makes no real difference to the atom’s mass.</div>
+
+  <div class="learn-card"><strong>Atomic number</strong> = number of protons (bottom number). <em>This is what is always different between different elements.</em><br>
+    <strong>Mass number</strong> = protons + neutrons (top number).<br>Neutrons = mass number − atomic number.</div>
+  <div class="learn-card"><strong>Electronic structure.</strong> Electrons fill inner shells first. Shell 1 holds up to <strong>2</strong>, shell 2 up to <strong>8</strong>, shell 3 up to <strong>8</strong>. Example: sodium (11 electrons) = <strong>2, 8, 1</strong>.</div>
+  <div class="learn-card"><strong>Isotopes</strong> are atoms of the same element — <strong>same number of protons</strong> — with a <strong>different number of neutrons</strong>.</div>
+  <div class="learn-card"><strong>The periodic table.</strong> <strong>Groups</strong> = columns (same number of outer electrons → similar properties). <strong>Periods</strong> = rows. Arranged by atomic number.</div>
+
+  <h3>How ions form</h3>
+  <div class="learn-card"><strong>An ion is a charged atom.</strong> Atoms become ions by losing or gaining electrons to get a full outer shell.<br>
+    • <strong>Metals lose</strong> electrons → <strong>positive</strong> ions.<br>
+    • <strong>Non-metals gain</strong> electrons → <strong>negative</strong> ions.</div>
+  <div class="learn-card"><strong>Charge comes from the group:</strong> Group 1 → 1+ · Group 2 → 2+ · Group 6 → 2− · Group 7 → 1−.<br>
+    <span class="note">Tip: metals’ charge = group number; non-metals’ charge = group number − 8.</span></div>
+  <div class="learn-card"><strong>Both ways:</strong> Sodium 2,8,1 → loses 1 electron → <strong>Na⁺</strong> (2,8). Oxygen 2,6 → gains 2 electrons → <strong>O²⁻</strong> (2,8).<br>
+    <strong>Careful with ions:</strong> a chloride <strong>ion</strong> (Cl⁻) has <strong>18 electrons</strong> — 17 from the atom plus 1 gained.</div>
+
+  <h3>Ionic bonding (taught now, revisited in Year 10)</h3>
+  <div class="learn-card"><strong>Ionic bonding happens between a metal and a non-metal.</strong> The metal <strong>transfers</strong> electrons to the non-metal, making a positive ion and a negative ion. They are held together by the <strong>strong electrostatic attraction between oppositely charged ions</strong>.</div>
+
+  <div class="svg-wrap">
+    <svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dot and cross diagram of sodium chloride">
+      <text x="240" y="22" text-anchor="middle" font-family="Arial" font-size="15" fill="#2E6E5A" font-weight="bold">Sodium chloride (NaCl)</text>
+      <circle cx="120" cy="135" r="70" fill="none" stroke="#2E6E5A" stroke-width="1.5"/>
+      <circle cx="120" cy="135" r="42" fill="none" stroke="#2E6E5A" stroke-width="1.5"/>
+      <text x="120" y="141" text-anchor="middle" font-family="Arial" font-size="15" fill="#2B2B2B" font-weight="bold">Na</text>
+      <circle cx="120" cy="93" r="3.5" fill="#2E6E5A"/><circle cx="120" cy="177" r="3.5" fill="#2E6E5A"/>
+      <circle cx="120" cy="65" r="3.5" fill="#2E6E5A"/><circle cx="170" cy="100" r="3.5" fill="#2E6E5A"/>
+      <circle cx="190" cy="135" r="3.5" fill="#2E6E5A"/><circle cx="170" cy="170" r="3.5" fill="#2E6E5A"/>
+      <circle cx="120" cy="205" r="3.5" fill="#2E6E5A"/><circle cx="70" cy="170" r="3.5" fill="#2E6E5A"/>
+      <circle cx="50" cy="135" r="3.5" fill="#2E6E5A"/><circle cx="70" cy="100" r="3.5" fill="#2E6E5A"/>
+      <text x="120" y="232" text-anchor="middle" font-family="Arial" font-size="13" fill="#2B2B2B">[Na]⁺</text>
+      <line x1="205" y1="120" x2="270" y2="120" stroke="#7A5C00" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="237" y="112" text-anchor="middle" font-family="Arial" font-size="11" fill="#7A5C00">1 e⁻</text>
+      <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7A5C00"/></marker></defs>
+      <circle cx="360" cy="135" r="70" fill="none" stroke="#2A5A7A" stroke-width="1.5"/>
+      <circle cx="360" cy="135" r="42" fill="none" stroke="#2A5A7A" stroke-width="1.5"/>
+      <text x="360" y="141" text-anchor="middle" font-family="Arial" font-size="15" fill="#2B2B2B" font-weight="bold">Cl</text>
+      <circle cx="360" cy="93" r="3.5" fill="#2A5A7A"/><circle cx="360" cy="177" r="3.5" fill="#2A5A7A"/>
+      <circle cx="360" cy="65" r="3.5" fill="#2A5A7A"/><circle cx="410" cy="100" r="3.5" fill="#2A5A7A"/>
+      <circle cx="430" cy="135" r="3.5" fill="#2A5A7A"/><circle cx="410" cy="170" r="3.5" fill="#2A5A7A"/>
+      <circle cx="360" cy="205" r="3.5" fill="#2A5A7A"/><circle cx="310" cy="170" r="3.5" fill="#2A5A7A"/>
+      <circle cx="290" cy="135" r="3.5" fill="#2A5A7A"/>
+      <text x="310" y="105" text-anchor="middle" font-family="Arial" font-size="13" fill="#7A5C00" font-weight="bold">✕</text>
+      <text x="360" y="232" text-anchor="middle" font-family="Arial" font-size="13" fill="#2B2B2B">[Cl]⁻</text>
+    </svg>
+    <div class="svg-cap">Sodium gives its 1 outer electron (✕) to chlorine. Both end with full outer shells. Na becomes 1+, Cl becomes 1−.</div>
+  </div>
+
+  <div class="svg-wrap">
+    <svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dot and cross diagram of magnesium oxide">
+      <text x="240" y="22" text-anchor="middle" font-family="Arial" font-size="15" fill="#2E6E5A" font-weight="bold">Magnesium oxide (MgO)</text>
+      <circle cx="120" cy="135" r="70" fill="none" stroke="#2E6E5A" stroke-width="1.5"/>
+      <circle cx="120" cy="135" r="42" fill="none" stroke="#2E6E5A" stroke-width="1.5"/>
+      <text x="120" y="141" text-anchor="middle" font-family="Arial" font-size="15" fill="#2B2B2B" font-weight="bold">Mg</text>
+      <circle cx="120" cy="93" r="3.5" fill="#2E6E5A"/><circle cx="120" cy="177" r="3.5" fill="#2E6E5A"/>
+      <circle cx="86" cy="101" r="3.5" fill="#2E6E5A"/><circle cx="154" cy="101" r="3.5" fill="#2E6E5A"/>
+      <circle cx="86" cy="169" r="3.5" fill="#2E6E5A"/><circle cx="154" cy="169" r="3.5" fill="#2E6E5A"/>
+      <circle cx="76" cy="135" r="3.5" fill="#2E6E5A"/><circle cx="164" cy="135" r="3.5" fill="#2E6E5A"/>
+      <text x="120" y="232" text-anchor="middle" font-family="Arial" font-size="13" fill="#2B2B2B">[Mg]²⁺</text>
+      <line x1="205" y1="120" x2="270" y2="120" stroke="#7A5C00" stroke-width="2" marker-end="url(#ar2)"/>
+      <text x="237" y="112" text-anchor="middle" font-family="Arial" font-size="11" fill="#7A5C00">2 e⁻</text>
+      <defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7A5C00"/></marker></defs>
+      <circle cx="360" cy="135" r="70" fill="none" stroke="#2A5A7A" stroke-width="1.5"/>
+      <circle cx="360" cy="135" r="42" fill="none" stroke="#2A5A7A" stroke-width="1.5"/>
+      <text x="360" y="141" text-anchor="middle" font-family="Arial" font-size="15" fill="#2B2B2B" font-weight="bold">O</text>
+      <circle cx="360" cy="93" r="3.5" fill="#2A5A7A"/><circle cx="360" cy="177" r="3.5" fill="#2A5A7A"/>
+      <circle cx="360" cy="65" r="3.5" fill="#2A5A7A"/><circle cx="410" cy="100" r="3.5" fill="#2A5A7A"/>
+      <circle cx="430" cy="135" r="3.5" fill="#2A5A7A"/><circle cx="410" cy="170" r="3.5" fill="#2A5A7A"/>
+      <circle cx="360" cy="205" r="3.5" fill="#2A5A7A"/><circle cx="310" cy="170" r="3.5" fill="#2A5A7A"/>
+      <text x="290" y="140" text-anchor="middle" font-family="Arial" font-size="13" fill="#7A5C00" font-weight="bold">✕</text>
+      <text x="310" y="105" text-anchor="middle" font-family="Arial" font-size="13" fill="#7A5C00" font-weight="bold">✕</text>
+      <text x="360" y="232" text-anchor="middle" font-family="Arial" font-size="13" fill="#2B2B2B">[O]²⁻</text>
+    </svg>
+    <div class="svg-cap">Magnesium gives 2 outer electrons (✕✕) to oxygen. Mg becomes 2+, O becomes 2−.</div>
+  </div>
+
+  <div class="learn-card"><strong>Why do ionic compounds have high melting points?</strong> There are <strong>strong electrostatic forces of attraction between the oppositely charged ions</strong>, and a <strong>lot of energy</strong> is needed to overcome them.<br>
+    <strong>Conducting electricity:</strong> solid ionic compounds don’t conduct, but they do when <strong>molten</strong> or <strong>dissolved in water</strong>, because the ions are then free to move.</div>
+
+  <h3>Group 1 — the alkali metals</h3>
+  <div class="learn-card"><strong>Reaction with water:</strong> Group 1 metal + water → metal hydroxide + hydrogen.<br>
+    <strong>What you see (the demo):</strong> the metal floats and moves around on the surface, fizzes, gets smaller and disappears. Further down the group the reaction is more violent.</div>
+  <div class="learn-card"><strong>Reactivity INCREASES down Group 1.</strong> Going down, atoms have more shells, so the <strong>outer</strong> electron is <strong>further from the nucleus</strong>, the attraction is weaker, and the electron is more easily <strong>lost</strong>.</div>
+
+  <h3>Group 7 — the halogens</h3>
+  <div class="learn-card"><strong>Reactivity DECREASES down Group 7.</strong> Going down, the <strong>outer</strong> shell is further from the nucleus, so it’s <strong>harder to attract and gain</strong> an electron.</div>
+  <div class="learn-card"><strong>Displacement:</strong> a more reactive halogen displaces a less reactive one from its compound. E.g. chlorine + sodium bromide → sodium chloride + bromine.</div>
+  <div class="examiner"><strong>Watch out:</strong> the two trends go in <em>opposite</em> directions. The key word in both explanations is <strong>“outer”</strong> — leave it out and the exam caps your marks.</div>
+</section>
+
+<!-- 3. HISTORY -->
+<section class="step" id="history">
+  <p class="step-label">Step 3 of 8</p>
+  <h2>History of the atom</h2>
+  <p class="instruction">Our picture of the atom changed as scientists did new experiments. Learn the order and who did what.</p>
+
+  <div class="learn-card"><strong>1. Dalton</strong> — described atoms as tiny solid spheres that couldn’t be divided.</div>
+  <div class="learn-card"><strong>2. Thomson — the plum pudding model.</strong> After discovering the electron, Thomson suggested the atom was a ball of positive charge with electrons stuck in it (like fruit in a pudding).</div>
+  <div class="learn-card"><strong>3. Rutherford — the alpha particle scattering experiment.</strong> Positive alpha particles were fired at thin gold foil. Most went straight through, but a few were deflected.<br>
+    • Most passing through → the atom is <strong>mostly empty space</strong>.<br>
+    • Some deflected → there is a small, <strong>positively charged</strong> nucleus where the mass is concentrated.</div>
+  <div class="learn-card"><strong>4. Bohr</strong> — showed electrons orbit the nucleus in fixed shells (energy levels) at set distances.</div>
+  <div class="learn-card"><strong>5. Chadwick</strong> — discovered the <strong>neutron</strong>, completing the modern picture of the nucleus.</div>
+
+  <table>
+    <tr><th>Scientist</th><th>What they did</th></tr>
+    <tr><td>Dalton</td><td>Solid sphere atom</td></tr>
+    <tr><td>Thomson</td><td>Electron / plum pudding model</td></tr>
+    <tr><td>Rutherford</td><td>Scattering → nucleus discovered</td></tr>
+    <tr><td>Bohr</td><td>Electrons in shells at set distances</td></tr>
+    <tr><td>Chadwick</td><td>Discovered the neutron</td></tr>
+  </table>
+  <div class="examiner"><strong>Exam favourites:</strong> identifying the plum pudding model from a picture, why most alpha particles aren’t deflected (atom is mostly empty space), and what scattering showed (mass and positive charge are concentrated in the nucleus).</div>
+</section>
+
+<!-- 4. MCQ -->
+<section class="step" id="mcq">
+  <p class="step-label">Step 4 of 8</p>
+  <h2>Multiple choice</h2>
+  <p class="instruction">Pick one answer. If it’s not right, you’ll get a nudge — try again.</p>
+
+  <div class="q">1. An atom has 11 protons, 12 neutrons and 11 electrons. What is its mass number?</div>
+  <button class="opt" onclick="mcq(this,false)">11</button><button class="opt" onclick="mcq(this,false)">12</button>
+  <button class="opt" onclick="mcq(this,false)">22</button><button class="opt" onclick="mcq(this,true)">23</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">2. What is ALWAYS different for atoms of different elements?</div>
+  <button class="opt" onclick="mcq(this,false)">Number of neutrons</button>
+  <button class="opt" onclick="mcq(this,true)">Number of protons</button>
+  <button class="opt" onclick="mcq(this,false)">Number of shells</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">3. What happens when a metal atom forms an ion?</div>
+  <button class="opt" onclick="mcq(this,true)">It loses electrons and becomes positive</button>
+  <button class="opt" onclick="mcq(this,false)">It gains electrons and becomes positive</button>
+  <button class="opt" onclick="mcq(this,false)">It loses electrons and becomes negative</button>
+  <button class="opt" onclick="mcq(this,false)">It gains protons and becomes positive</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">4. An oxygen atom has the structure 2,6. What ion does it form?</div>
+  <button class="opt" onclick="mcq(this,false)">O⁺</button><button class="opt" onclick="mcq(this,false)">O²⁺</button>
+  <button class="opt" onclick="mcq(this,true)">O²⁻</button><button class="opt" onclick="mcq(this,false)">O⁻</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">5. As you go DOWN Group 1, the metals become:</div>
+  <button class="opt" onclick="mcq(this,true)">More reactive</button><button class="opt" onclick="mcq(this,false)">Less reactive</button>
+  <button class="opt" onclick="mcq(this,false)">No change in reactivity</button><button class="opt" onclick="mcq(this,false)">Less metallic</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">6. Which model is the “plum pudding” model — a ball of positive charge with electrons in it?</div>
+  <button class="opt" onclick="mcq(this,false)">Dalton’s solid sphere</button>
+  <button class="opt" onclick="mcq(this,true)">Thomson’s model</button>
+  <button class="opt" onclick="mcq(this,false)">Rutherford’s nuclear model</button>
+  <button class="opt" onclick="mcq(this,false)">Bohr’s model</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">7. Why are most alpha particles NOT deflected in the scattering experiment?</div>
+  <button class="opt" onclick="mcq(this,false)">The atom cannot be divided</button>
+  <button class="opt" onclick="mcq(this,true)">The atom is mostly empty space</button>
+  <button class="opt" onclick="mcq(this,false)">Electrons orbit at fixed distances</button>
+  <div class="feedback" data-fb>—</div>
+</section>
+
+<!-- 5. MATCH -->
+<section class="step" id="match">
+  <p class="step-label">Step 5 of 8</p>
+  <h2>Match the key term</h2>
+  <p class="instruction">Choose the correct definition from the dropdown for each term.</p>
+
+  <p class="q">Ion</p>
+  <select class="opt" onchange="matchCheck(this,'d')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select><div class="feedback" data-fb>—</div>
+
+  <p class="q">Isotope</p>
+  <select class="opt" onchange="matchCheck(this,'c')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select><div class="feedback" data-fb>—</div>
+
+  <p class="q">Compound</p>
+  <select class="opt" onchange="matchCheck(this,'b')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select><div class="feedback" data-fb>—</div>
+
+  <p class="q" style="margin-top:18px">Match each scientist to what they did:</p>
+  <p class="q">Thomson</p>
+  <select class="opt" onchange="matchCheck(this,'p')">
+    <option value="">— choose —</option>
+    <option value="p">Plum pudding model (discovered the electron)</option>
+    <option value="r">Scattering experiment → nucleus discovered</option>
+    <option value="n">Discovered the neutron</option>
+  </select><div class="feedback" data-fb>—</div>
+
+  <p class="q">Rutherford</p>
+  <select class="opt" onchange="matchCheck(this,'r')">
+    <option value="">— choose —</option>
+    <option value="p">Plum pudding model (discovered the electron)</option>
+    <option value="r">Scattering experiment → nucleus discovered</option>
+    <option value="n">Discovered the neutron</option>
+  </select><div class="feedback" data-fb>—</div>
+
+  <p class="q">Chadwick</p>
+  <select class="opt" onchange="matchCheck(this,'n')">
+    <option value="">— choose —</option>
+    <option value="p">Plum pudding model (discovered the electron)</option>
+    <option value="r">Scattering experiment → nucleus discovered</option>
+    <option value="n">Discovered the neutron</option>
+  </select><div class="feedback" data-fb>—</div>
+
+  <h3>Flashcards — Look, Cover, Write, Check</h3>
+  <p class="note">Read it, cover it in your mind, say the answer, <em>then</em> flip. Don’t flip too early!</p>
+  <div class="flashcard" onclick="flip(this)" data-back="Lose electrons → positive ions.">Do metals lose or gain electrons, and what charge do they get? <span class="note">(tap)</span></div>
+  <div class="flash-hint">Tap to reveal</div>
+  <div class="flashcard" onclick="flip(this)" data-back="It increases. The OUTER electron is further from the nucleus down the group, so it’s lost more easily.">Does reactivity increase or decrease down Group 1 — and why? <span class="note">(tap)</span></div>
+  <div class="flash-hint">Tap to reveal</div>
+  <div class="flashcard" onclick="flip(this)" data-back="A small, positive nucleus where the mass is concentrated; and that the atom is mostly empty space.">What did Rutherford’s scattering experiment show? <span class="note">(tap)</span></div>
+  <div class="flash-hint">Tap to reveal</div>
+</section>
+
+<!-- 6. FILL -->
+<section class="step" id="fill">
+  <p class="step-label">Step 6 of 8</p>
+  <h2>Fill the blank</h2>
+
+  <h3>Stage A — with a word bank</h3>
+  <p class="instruction">Use the words below. Each is used once.</p>
+  <div class="word-bank"><span>lose</span><span>gain</span><span>positive</span><span>negative</span><span>metal</span><span>non-metal</span></div>
+  <p>When ionic bonds form, a <input type="text" data-ans="metal"> atom will
+    <input type="text" data-ans="lose"> electrons to become a
+    <input type="text" data-ans="positive"> ion. A
+    <input type="text" data-ans="non-metal"> atom will
+    <input type="text" data-ans="gain"> electrons to become a
+    <input type="text" data-ans="negative"> ion.</p>
+  <button class="btn" onclick="checkFill('fillA', this)">Check answers</button>
+  <div class="feedback" data-fb id="fillA-fb">—</div>
+
+  <h3>Stage B — no word bank</h3>
+  <p class="instruction">Same idea, but now from memory.</p>
+  <p>Reactivity increases down Group 1 because the outer electron is further from the
+    <input type="text" data-ans="nucleus"> , so it is more easily
+    <input type="text" data-ans="lost"> .
+    A more reactive halogen can <input type="text" data-ans="displace"> a less reactive halogen from its compound.</p>
+  <button class="btn" onclick="checkFill('fillB', this)">Check answers</button>
+  <div class="feedback" data-fb id="fillB-fb">—</div>
+</section>
+
+<!-- 7. EXAM -->
+<section class="step" id="exam">
+  <p class="step-label">Step 7 of 8</p>
+  <h2>Exam-style questions</h2>
+  <p class="instruction">Have a real go first. Stuck? Use the hints — they help you think, they don’t just give the answer.</p>
+
+  <p class="q">1. Complete the table for fluorine (atomic number 9, mass number 19). [3 marks]</p>
+  <table><tr><th>Particle</th><th>Number</th></tr>
+    <tr><td>Protons</td><td><input type="text" data-ans="9"></td></tr>
+    <tr><td>Neutrons</td><td><input type="text" data-ans="10"></td></tr>
+    <tr><td>Electrons</td><td><input type="text" data-ans="9"></td></tr></table>
+  <button class="btn" onclick="checkFill('exam1', this)">Check answers</button>
+  <div class="feedback" data-fb id="exam1-fb">—</div>
+  <div class="help-row">
+    <button class="btn ghost" onclick="help('h1')">Need a hint?</button>
+    <div class="help-step" id="h1-1">🧠 <strong>Think first:</strong> protons = atomic number.</div>
+    <div class="help-step" id="h1-2">📋 <strong>Next clue:</strong> neutrons = mass number − atomic number = 19 − 9.</div>
+    <div class="help-step" id="h1-3">✅ <strong>Last step:</strong> a neutral atom has the same number of electrons as protons.</div>
+  </div>
+
+  <p class="q">2. What is meant by ‘isotopes’? Refer to subatomic particles. [2 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <details class="markscheme"><summary>Show what a strong answer includes</summary><div class="body">
+    <p><span class="tick">✓</span> Atoms (of the same element) with the same number of protons.</p>
+    <p><span class="tick">✓</span> But a different number of neutrons.</p>
+    <div class="reject-note"><b>Do NOT write:</b> “different relative atomic mass” — the mark scheme rejects it. “Different mass numbers” is ignored (won’t earn the mark). Stick to <b>protons</b> and <b>neutrons</b>.</div>
+  </div></details>
+
+  <p class="q">3. Explain why an atom has no overall charge. Use the relative charges of subatomic particles. [2 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <details class="markscheme"><summary>Show what a strong answer includes</summary><div class="body">
+    <p><span class="tick">✓</span> Protons have a charge of +1 and electrons have a charge of −1.</p>
+    <p><span class="tick">✓</span> There are equal numbers of protons and electrons, so the charges cancel out / balance.</p>
+  </div></details>
+
+  <p class="q">4. A sodium atom has the structure 2,8,1. Describe how it forms an ion, and give the symbol of that ion. [2 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <div class="help-row">
+    <button class="btn ghost" onclick="help('h4')">Need a hint?</button>
+    <div class="help-step" id="h4-1">🧠 <strong>Think first:</strong> sodium is a metal — do metals lose or gain electrons?</div>
+    <div class="help-step" id="h4-2">📋 <strong>Clue:</strong> it has 1 electron in its outer shell — how many would it lose to get a full outer shell?</div>
+  </div>
+  <details class="markscheme"><summary>Show what a strong answer includes</summary><div class="body">
+    <p><span class="tick">✓</span> It loses 1 electron (from its outer shell).</p>
+    <p><span class="tick">✓</span> Forming a 1+ ion, Na⁺ (structure becomes 2,8).</p>
+  </div></details>
+
+  <p class="q">5. A small piece of lithium is added to water. Describe two things you would observe. [2 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <details class="markscheme"><summary>Show what a strong answer includes</summary><div class="body">
+    <p><span class="tick">✓</span> Any two from: floats / moves around on the surface / fizzes (bubbles) / gets smaller and disappears / makes a sound.</p>
+    <p class="note">The gas given off is hydrogen, and a metal hydroxide forms.</p>
+  </div></details>
+
+  <p class="q">6. Explain why sodium chloride has a high melting point. [3 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <details class="markscheme"><summary>Show what a strong answer includes</summary><div class="body">
+    <p><span class="tick">✓</span> It has a giant ionic lattice / structure of oppositely charged ions.</p>
+    <p><span class="tick">✓</span> There are strong electrostatic forces of attraction between the oppositely charged ions.</p>
+    <p><span class="tick">✓</span> A lot of energy is needed to overcome / break these forces.</p>
+  </div></details>
+
+  <div class="examiner"><strong>Examiner tip:</strong> in “explain” questions you must give a reason, not just a fact — and for melting points, always end with “so a lot of energy is needed to overcome the forces.”</div>
+  <div class="nudge"><b>Making the same mistake more than once?</b> First check your notes aren’t wrong. If they’re right and it still won’t click, that’s a gap in understanding — bring this exact question to your chemistry teacher at a lesson or intervention session.</div>
+</section>
+
+<!-- 8. EXTENDED -->
+<section class="step" id="extended">
+  <p class="step-label">Step 8 of 8 · the hardest one</p>
+  <h2>Longer answer — compare your answer</h2>
+  <p class="instruction">This is the big one — it’s worth 4 marks and appears on real papers. Write what you can, then reveal and compare.</p>
+
+  <p class="q">Explain why the reactivity of Group 1 elements <strong>increases</strong> going down the group (lithium to rubidium), but the reactivity of Group 7 elements <strong>decreases</strong> going down the group (fluorine to iodine). [4 marks]</p>
+  <textarea placeholder="Think about the OUTER shell and its distance from the nucleus..."></textarea>
+  <div class="help-row">
+    <button class="btn ghost" onclick="help('h8')">Need a hint?</button>
+    <div class="help-step" id="h8-1">🧠 <strong>Think first:</strong> going down a group, atoms gain more shells — what happens to the distance from the nucleus to the OUTER shell?</div>
+    <div class="help-step" id="h8-2">📋 <strong>Clue:</strong> Group 1 needs to LOSE its outer electron; Group 7 needs to GAIN one. The same change in distance affects these opposite jobs in opposite ways.</div>
+  </div>
+  <details class="markscheme"><summary>Reveal model answer &amp; the mark scheme</summary><div class="body">
+    <p class="note">The real mark scheme awards one mark for each of these four points:</p>
+    <p><span class="tick">✓</span> The <strong>outer</strong> electron/shell gets further from the nucleus down the group (more shells / larger atom).</p>
+    <p><span class="tick">✓</span> So the attraction between the nucleus and the outer electron changes (weaker down the group).</p>
+    <p><span class="tick">✓</span> Group 1: the outer electron is more easily <strong>lost</strong>, so reactivity increases.</p>
+    <p><span class="tick">✓</span> Group 7: it is harder to <strong>gain</strong> an electron, so reactivity decreases (the opposite explanation).</p>
+    <div class="reject-note"><b>Mark scheme cap:</b> you get a <b>maximum of 3 out of 4</b> if you don’t use the word <b>“outer”</b>. Always say “outer electron” or “outer shell”.</div>
+  </div></details>
+</section>
+
+<footer>
+  Year 9 · Atomic Structure &amp; the Periodic Table · Foundation revision tool<br>
+  Getting things wrong is part of learning. Come back and try again another day — that’s when it really sticks.
+</footer>
+
+</div>
+
+<script>
+  function jump(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+  function toggle(id){ document.getElementById(id).classList.toggle('show'); }
+  function flip(el){
+    if(!el.dataset.flipped){ el.dataset.front = el.innerHTML; el.innerHTML = el.dataset.back; el.dataset.flipped="1"; }
+    else { el.innerHTML = el.dataset.front; el.dataset.flipped=""; } }
+  function help(prefix){
+    for(let i=1;i<=3;i++){ const s=document.getElementById(prefix+'-'+i);
+      if(s && !s.classList.contains('show')){ s.classList.add('show'); break; } } }
+  function mcq(btn, correct){
+    const fb = btn.parentNode.querySelector('[data-fb]');
+    if(correct){ btn.classList.add('correct'); fb.textContent="✓ Correct — well done.";
+      fb.className="feedback show good"; [...btn.parentNode.querySelectorAll('.opt')].forEach(b=>b.disabled=true);
+    } else { btn.classList.add('wrong'); btn.disabled=true;
+      fb.textContent="Not quite — have another go. A wrong try is how your brain finds the right answer.";
+      fb.className="feedback show try"; } }
+  function matchCheck(sel, right){
+    const fb = sel.parentNode.querySelector('[data-fb]');
+    if(sel.value===''){ fb.className="feedback"; return; }
+    if(sel.value===right){ sel.classList.add('correct'); sel.classList.remove('wrong');
+      fb.textContent="✓ Correct."; fb.className="feedback show good"; }
+    else { sel.classList.add('wrong'); sel.classList.remove('correct');
+      fb.textContent="Try again — read each option carefully."; fb.className="feedback show try"; } }
+  function norm(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+  function checkFill(id, btn){
+    const section = btn.closest('section');
+    const nodes = [...section.querySelectorAll('input[type=text], button')];
+    const myIndex = nodes.indexOf(btn);
+    let start = 0;
+    for(let i=myIndex-1;i>=0;i--){ if(nodes[i].nodeName==='BUTTON'){ start=i+1; break; } }
+    const group = nodes.slice(start, myIndex).filter(n=>n.nodeName==='INPUT');
+    let right=0,total=0;
+    group.forEach(inp=>{ total++;
+      if(norm(inp.value)===norm(inp.dataset.ans)){ inp.classList.add('correct'); inp.classList.remove('wrong'); right++; }
+      else { inp.classList.add('wrong'); inp.classList.remove('correct'); } });
+    const fb = document.getElementById(id+'-fb');
+    if(fb){ if(right===total && total>0){ fb.textContent="✓ All correct — brilliant."; fb.className="feedback show good"; }
+      else { fb.textContent="You got "+right+" of "+total+". The amber boxes need another look — check the key word’s spelling too."; fb.className="feedback show try"; } } }
+  let tLeft=120, tInt=null;
+  function startTimer(){ clearInterval(tInt); tLeft=120; render();
+    tInt=setInterval(()=>{ tLeft--; render(); if(tLeft<=0){ clearInterval(tInt);
+      document.getElementById('timer').textContent="Time’s up — check your answers"; } },1000); }
+  function render(){ const m=Math.floor(tLeft/60), s=tLeft%60;
+    document.getElementById('timer').textContent = m+":"+(s<10?'0':'')+s; }
+</script>
+</body>
+</html>
